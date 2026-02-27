@@ -1,0 +1,117 @@
+---
+title: CLI Reference
+description: All flags, options, and usage examples for the mekong CLI.
+---
+
+# CLI Reference
+
+## Usage
+
+```
+mekong [flags] <local-port>
+```
+
+`<local-port>` is the port your local application is listening on.
+
+## Examples
+
+```bash
+# Expose localhost:3000
+mekong 3000
+
+# Expose localhost:8080
+mekong 8080
+
+# Use a custom server
+mekong 3000 --server myserver.com
+
+# Custom server on a non-standard SSH port
+mekong 3000 --server myserver.com --port 2222
+
+# Disable QR code
+mekong 3000 --no-qr
+
+# Disable clipboard copy
+mekong 3000 --no-clipboard
+
+# Exit on disconnect instead of reconnecting
+mekong 3000 --no-reconnect
+
+# Combine flags
+mekong 5173 --no-qr --no-clipboard
+```
+
+## Flags
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--server` | `mekongtunnel.dev` | MekongTunnel server hostname |
+| `--port` | `22` | SSH server port |
+| `--no-qr` | `false` | Disable QR code display |
+| `--no-clipboard` | `false` | Disable auto clipboard copy |
+| `--no-reconnect` | `false` | Exit on disconnect instead of reconnecting |
+
+## Auto-reconnect
+
+By default the CLI reconnects automatically with exponential backoff starting at 2 seconds, doubling on each attempt up to 60 seconds maximum.
+
+```
+↺  Reconnecting in 2s...
+↺  Reconnecting in 4s...
+↺  Reconnecting in 8s...
+```
+
+Disable with `--no-reconnect`.
+
+## Output
+
+When the tunnel connects, you'll see:
+
+```
+  ███╗   ███╗███████╗██╗  ██╗ ██████╗ ███╗   ██╗ ██████╗
+  ...
+
+  by Ing Muyleang · Founder of KhmerStack
+  ─────────────────────────────────────────────────────
+  Server     mekongtunnel.dev
+  Local      localhost:3000
+  ─────────────────────────────────────────────────────
+
+  →  Connecting to mekongtunnel.dev...
+  ✔  Tunnel is live!
+     URL      https://happy-tiger-a1b2.mekongtunnel.dev
+     Expires  Feb 28, 2027 at 15:04 UTC (or 2h idle)
+
+  ✔  Copied to clipboard!
+```
+
+After that, every HTTP request is logged in real time:
+
+```
+GET  /              200  12ms
+POST /api/submit    201  45ms
+GET  /static/app.js 200  8ms
+```
+
+## Raw SSH alternative
+
+If you prefer to use `ssh` directly:
+
+```bash
+# Basic
+ssh -t -R 80:localhost:3000 mekongtunnel.dev
+
+# With keep-alive (recommended for long-running tunnels)
+ssh -t -R 80:localhost:3000 \
+    -o ServerAliveInterval=60 \
+    -o ServerAliveCountMax=3 \
+    mekongtunnel.dev
+
+# Custom SSH port
+ssh -t -R 80:localhost:3000 mekongtunnel.dev -p 2222
+
+# Skip phishing warning for API clients
+curl -H "mekongtunnel-skip-warning: 1" https://happy-tiger-a1b2.mekongtunnel.dev
+```
+
+> The `-t` flag is required to allocate a TTY. Without it, the server cannot display the URL.

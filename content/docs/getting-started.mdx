@@ -1,0 +1,71 @@
+---
+title: Getting Started
+description: What is MekongTunnel and how to get up and running in under a minute.
+---
+
+# Getting Started
+
+MekongTunnel is a **self-hosted SSH tunnel server** written in Go. It works like ngrok or Cloudflare Tunnel, but you control it.
+
+Run one command and expose any local port to the internet with a public HTTPS URL:
+
+```
+mekong 3000
+```
+
+You get:
+- A unique public URL: `https://happy-tiger-a1b2.mekongtunnel.dev`
+- The URL copied to your clipboard automatically
+- A QR code printed in your terminal
+- Live HTTP request logs streamed to your terminal
+- Auto-reconnect if the connection drops
+
+## Prerequisites
+
+- macOS, Linux, or Windows
+- A running local service on any port
+
+That's it. No account. No config file. No dashboard.
+
+## Quick start
+
+**Step 1** — Install the CLI
+
+```bash
+sudo curl -L https://github.com/MuyleangIng/MekongTunnel/releases/download/v1.0.0/mekong-darwin-arm64 -o /usr/local/bin/mekong
+sudo chmod +x /usr/local/bin/mekong
+```
+
+See the [Installation](/docs/installation) page for all platforms.
+
+**Step 2** — Start a local server (or use your existing app)
+
+```bash
+python3 -m http.server 3000
+```
+
+**Step 3** — Open a tunnel
+
+```bash
+mekong 3000
+```
+
+You'll see the banner with your public URL within seconds.
+
+## What happens under the hood
+
+When you run `mekong 3000`, the CLI:
+
+1. Connects to `mekongtunnel.dev` over SSH on port 22
+2. Sends a `tcpip-forward` request to ask the server to forward traffic
+3. The server assigns you a memorable subdomain and starts listening
+4. A public HTTPS URL is displayed in your terminal
+5. Incoming requests are forwarded to your `localhost:3000` via the SSH channel
+
+See [How It Works](/docs/how-it-works) for a full technical walkthrough.
+
+## Next steps
+
+- [Installation](/docs/installation) — all platforms and install methods
+- [CLI Reference](/docs/cli-reference) — all flags and options
+- [Self-Hosting](/docs/self-hosting) — run your own server
