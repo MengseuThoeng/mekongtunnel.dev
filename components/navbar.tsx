@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { GITHUB_URL } from '@/lib/github'
+import Image from 'next/image'
 
 const NAV_LINKS = [
   { label: 'Docs', href: '/docs/getting-started' },
@@ -36,9 +37,10 @@ export default function Navbar({ stars }: { stars?: number }) {
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <span className="w-7 h-7 rounded-md bg-gradient-to-br from-gold to-mekong flex items-center justify-center text-bg font-black text-sm">
+          {/*<span className="w-7 h-7 rounded-md bg-gradient-to-br from-gold to-mekong flex items-center justify-center text-bg font-black text-sm">
             M
-          </span>
+          </span> */}
+          <Image src="/MekongNoBG.png" width={60} height={60} alt="Mekong Tunnel Logo" />
           <span className="font-bold tracking-wider">
             <span className="text-gold">MEKONG</span>
             <span className="text-dim">TUNNEL</span>

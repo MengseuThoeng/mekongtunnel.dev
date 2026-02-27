@@ -1,0 +1,86 @@
+---
+title: Installation
+description: Install the mekong CLI on macOS, Linux, or Windows.
+---
+
+# Installation
+
+## mekong CLI (Recommended)
+
+The `mekong` CLI is the easiest way to use MekongTunnel. It handles SSH connections, auto-reconnect, QR code display, and clipboard copying automatically.
+
+### macOS — Apple Silicon (M1, M2, M3, M4)
+
+```bash
+sudo curl -L https://github.com/MuyleangIng/MekongTunnel/releases/download/v1.0.0/mekong-darwin-arm64 -o /usr/local/bin/mekong
+sudo chmod +x /usr/local/bin/mekong
+mekong 3000
+```
+
+### macOS — Intel
+
+```bash
+sudo curl -L https://github.com/MuyleangIng/MekongTunnel/releases/download/v1.0.0/mekong-darwin-amd64 -o /usr/local/bin/mekong
+sudo chmod +x /usr/local/bin/mekong
+mekong 3000
+```
+
+### Linux — amd64
+
+```bash
+sudo curl -L https://github.com/MuyleangIng/MekongTunnel/releases/download/v1.0.0/mekong-linux-amd64 -o /usr/local/bin/mekong
+sudo chmod +x /usr/local/bin/mekong
+mekong 3000
+```
+
+### Linux — arm64
+
+```bash
+sudo curl -L https://github.com/MuyleangIng/MekongTunnel/releases/download/v1.0.0/mekong-linux-arm64 -o /usr/local/bin/mekong
+sudo chmod +x /usr/local/bin/mekong
+mekong 3000
+```
+
+### Windows
+
+1. Download [`mekong-windows-amd64.exe`](https://github.com/MuyleangIng/MekongTunnel/releases/download/v1.0.0/mekong-windows-amd64.exe)
+2. Rename it to `mekong.exe`
+3. Move it to a directory in your `PATH` (e.g. `C:\Windows\System32`)
+4. Open a terminal and run `mekong 3000`
+
+### Build from source (Go 1.24+)
+
+```bash
+git clone https://github.com/MuyleangIng/MekongTunnel.git
+cd MekongTunnel
+make build-client
+# binary at: bin/mekong
+```
+
+Or install directly via Go:
+
+```bash
+go install muyleanging.com/mekongtunnel/cmd/mekong@latest
+```
+
+---
+
+## Raw SSH (no install needed)
+
+If you have SSH available, you don't need the CLI at all:
+
+```bash
+ssh -t -R 80:localhost:3000 mekongtunnel.dev
+```
+
+> The `-t` flag is required — it allocates a TTY so the server can display your tunnel URL.
+
+---
+
+## Verify the install
+
+```bash
+mekong --help
+```
+
+You should see the usage information and available flags.

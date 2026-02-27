@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import TerminalWindow from './terminal-window'
 import { GITHUB_URL } from '@/lib/github'
 
@@ -15,24 +18,44 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: copy */}
           <div>
-            <div className="inline-flex items-center gap-2 bg-gold/10 border border-gold/20 text-gold text-xs font-semibold px-3 py-1.5 rounded-full mb-6 uppercase tracking-widest">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+              className="inline-flex items-center gap-2 bg-gold/10 border border-gold/20 text-gold text-xs font-semibold px-3 py-1.5 rounded-full mb-6 uppercase tracking-widest"
+            >
               <span className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse" />
               Open Source · MIT License
-            </div>
+            </motion.div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-5xl font-extrabold leading-tight text-dim mb-5">
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+              className="text-4xl md:text-5xl lg:text-5xl font-extrabold leading-tight text-dim mb-5"
+            >
               Expose your local server{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-yellow-300">
                 in one command
               </span>
-            </h1>
+            </motion.h1>
 
-            <p className="text-muted text-lg leading-relaxed mb-8 max-w-lg">
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+              className="text-muted text-lg leading-relaxed mb-8 max-w-lg"
+            >
               MekongTunnel is a self-hosted SSH tunnel server. No signup, no config, no agents.
               Just run <code className="text-code font-mono text-base bg-white/5 px-1.5 py-0.5 rounded">mekong 3000</code> and get a public HTTPS URL instantly.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-wrap gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
+              className="flex flex-wrap gap-3"
+            >
               <Link
                 href="/docs/getting-started"
                 className="inline-flex items-center gap-2 bg-gold text-bg font-bold px-6 py-3 rounded-xl text-sm hover:bg-yellow-300 transition-colors shadow-lg shadow-gold/20"
@@ -53,36 +76,56 @@ export default function Hero() {
                 </svg>
                 View on GitHub
               </a>
-            </div>
+            </motion.div>
 
             {/* Social proof */}
-            <div className="flex items-center gap-6 mt-10 pt-8 border-t border-white/5">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: 'easeOut' }}
+              className="flex items-center gap-6 mt-10 pt-8 border-t border-white/5"
+            >
               {[
                 { label: 'Open Source', value: 'MIT' },
                 { label: 'Tunnels', value: '1,000' },
                 { label: 'Written in', value: 'Go' },
-              ].map((stat) => (
-                <div key={stat.label}>
+              ].map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.6 + i * 0.1, ease: 'easeOut' }}
+                >
                   <div className="text-gold font-bold text-lg">{stat.value}</div>
                   <div className="text-muted text-xs">{stat.label}</div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           {/* Right: terminal */}
-          <div className="w-full">
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
+            className="w-full"
+          >
             <TerminalWindow />
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted/40 animate-bounce">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 1, ease: 'easeOut' }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted/40 animate-bounce"
+      >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
         </svg>
-      </div>
+      </motion.div>
     </section>
   )
 }

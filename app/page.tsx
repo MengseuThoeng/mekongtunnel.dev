@@ -2,6 +2,7 @@ import Hero from '@/components/hero'
 import HowItWorks from '@/components/how-it-works'
 import InstallTabs from '@/components/install-tabs'
 import FeatureCard from '@/components/feature-card'
+import { AnimatedSection, AnimatedList, AnimatedListItem } from '@/components/animated-section'
 import Link from 'next/link'
 import { GITHUB_URL } from '@/lib/github'
 
@@ -71,7 +72,7 @@ export default function LandingPage() {
       {/* Features grid */}
       <section className="py-20 px-6" style={{ background: 'rgba(22,22,42,0.3)' }}>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
+          <AnimatedSection className="text-center mb-14">
             <p className="text-gold text-sm font-semibold uppercase tracking-widest mb-3">
               Everything you need
             </p>
@@ -79,10 +80,10 @@ export default function LandingPage() {
             <p className="text-muted mt-4 max-w-xl mx-auto">
               No plugins, no extensions. Everything ships in a single ~6 MB binary.
             </p>
-          </div>
+          </AnimatedSection>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {FEATURES.map((f) => (
-              <FeatureCard key={f.title} {...f} />
+            {FEATURES.map((f, i) => (
+              <FeatureCard key={f.title} {...f} index={i} />
             ))}
           </div>
         </div>
@@ -91,16 +92,16 @@ export default function LandingPage() {
       {/* Limits table */}
       <section className="py-20 px-6">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
+          <AnimatedSection className="text-center mb-12">
             <p className="text-gold text-sm font-semibold uppercase tracking-widest mb-3">Transparent</p>
             <h2 className="text-3xl md:text-4xl font-bold text-dim">Server limits</h2>
             <p className="text-muted mt-4">
               All limits apply to the public hosted instance. Self-hosters can adjust everything via env vars.
             </p>
-          </div>
-          <div className="bg-card border border-white/5 rounded-xl overflow-hidden">
+          </AnimatedSection>
+          <AnimatedList className="bg-card border border-white/5 rounded-xl overflow-hidden">
             {LIMITS.map((l, i) => (
-              <div
+              <AnimatedListItem
                 key={l.label}
                 className={`flex items-center justify-between px-6 py-4 ${
                   i < LIMITS.length - 1 ? 'border-b border-white/5' : ''
@@ -108,15 +109,15 @@ export default function LandingPage() {
               >
                 <span className="text-muted text-sm">{l.label}</span>
                 <span className="text-gold font-mono font-semibold text-sm">{l.value}</span>
-              </div>
+              </AnimatedListItem>
             ))}
-          </div>
+          </AnimatedList>
         </div>
       </section>
 
       {/* Self-host CTA */}
       <section className="py-20 px-6">
-        <div className="max-w-3xl mx-auto bg-gradient-to-br from-card via-surface to-card border border-gold/15 rounded-2xl p-10 md:p-14 text-center relative overflow-hidden">
+        <AnimatedSection className="max-w-3xl mx-auto bg-gradient-to-br from-card via-surface to-card border border-gold/15 rounded-2xl p-10 md:p-14 text-center relative overflow-hidden">
           <div
             className="absolute inset-0 pointer-events-none"
             style={{ background: 'radial-gradient(ellipse at center, rgba(255,215,0,0.04), transparent)' }}
@@ -147,7 +148,7 @@ export default function LandingPage() {
               </a>
             </div>
           </div>
-        </div>
+        </AnimatedSection>
       </section>
     </>
   )

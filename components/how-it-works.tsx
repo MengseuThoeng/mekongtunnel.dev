@@ -1,3 +1,7 @@
+'use client'
+
+import { motion } from 'framer-motion'
+
 const STEPS = [
   {
     number: '01',
@@ -26,13 +30,19 @@ export default function HowItWorks() {
   return (
     <section className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="text-center mb-16"
+        >
           <p className="text-gold text-sm font-semibold uppercase tracking-widest mb-3">Simple by design</p>
           <h2 className="text-3xl md:text-4xl font-bold text-dim">How it works</h2>
           <p className="text-muted mt-4 max-w-xl mx-auto">
             MekongTunnel uses standard SSH reverse port forwarding. No agents, no proprietary protocol, no account required.
           </p>
-        </div>
+        </motion.div>
 
         <div className="relative">
           {/* Connector line */}
@@ -40,7 +50,14 @@ export default function HowItWorks() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {STEPS.map((step, i) => (
-              <div key={i} className="relative flex flex-col items-center text-center md:items-start md:text-left">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5, delay: i * 0.15, ease: 'easeOut' }}
+                className="relative flex flex-col items-center text-center md:items-start md:text-left"
+              >
                 {/* Number badge */}
                 <div className="relative z-10 w-12 h-12 rounded-full bg-card border border-gold/30 flex items-center justify-center mb-6 shrink-0">
                   <span className="text-gold font-mono font-bold text-sm">{step.number}</span>
@@ -53,13 +70,19 @@ export default function HowItWorks() {
                 <div className="w-full bg-[#0a0a14] border border-white/10 rounded-lg px-3 py-2 font-mono text-xs text-code break-all">
                   {step.code}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         {/* Architecture note */}
-        <div className="mt-16 bg-card border border-white/5 rounded-xl p-6 md:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+          className="mt-16 bg-card border border-white/5 rounded-xl p-6 md:p-8"
+        >
           <div className="flex flex-col md:flex-row items-start gap-6">
             <div className="shrink-0 w-10 h-10 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center text-lg">
               🏗️
@@ -83,7 +106,7 @@ export default function HowItWorks() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

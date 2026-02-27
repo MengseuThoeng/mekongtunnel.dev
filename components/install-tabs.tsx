@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import CopyButton from './copy-button'
 import { cn } from '@/lib/utils'
 
@@ -75,14 +76,26 @@ export default function InstallTabs() {
   return (
     <section className="py-20 px-6">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="text-center mb-12"
+        >
           <p className="text-gold text-sm font-semibold uppercase tracking-widest mb-3">Get started in seconds</p>
           <h2 className="text-3xl md:text-4xl font-bold text-dim">Install the CLI</h2>
           <p className="text-muted mt-4">One binary. No dependencies. Works on macOS, Linux, and Windows.</p>
-        </div>
+        </motion.div>
 
         {/* Platform tabs */}
-        <div className="flex flex-wrap gap-2 mb-4 justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
+          className="flex flex-wrap gap-2 mb-4 justify-center"
+        >
           {PLATFORMS.map((p) => (
             <button
               key={p.id}
@@ -99,10 +112,16 @@ export default function InstallTabs() {
               <span className="sm:hidden">{p.id === 'go' ? 'Go' : p.id.split('-')[0]}</span>
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Command block */}
-        <div className="bg-[#0a0a14] border border-white/10 rounded-xl overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+          className="bg-[#0a0a14] border border-white/10 rounded-xl overflow-hidden"
+        >
           <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/5 bg-card/50">
             <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
             <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
@@ -128,10 +147,16 @@ export default function InstallTabs() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Alt: raw SSH */}
-        <div className="mt-8 bg-card border border-white/5 rounded-xl p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
+          className="mt-8 bg-card border border-white/5 rounded-xl p-6"
+        >
           <p className="text-dim font-semibold text-sm mb-3">Or use raw SSH (no install needed)</p>
           <div className="flex items-center justify-between gap-3 bg-[#0a0a14] border border-white/10 rounded-lg px-4 py-3 font-mono text-sm">
             <div className="flex items-center gap-2 min-w-0">
@@ -143,7 +168,7 @@ export default function InstallTabs() {
           <p className="text-muted/60 text-xs mt-2">
             Replace <code className="text-code">3000</code> with your local port. The <code className="text-code">-t</code> flag is required.
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

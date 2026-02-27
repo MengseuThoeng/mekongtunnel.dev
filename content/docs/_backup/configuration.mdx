@@ -1,0 +1,89 @@
+---
+title: Configuration
+description: All environment variables for configuring the MekongTunnel server.
+---
+
+# Configuration
+
+The MekongTunnel server is configured entirely via environment variables. No config file required.
+
+## Setup
+
+```bash
+cp .env.example .env
+nano .env
+```
+
+## Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DOMAIN` | `muyleanging.com` | Your domain — tunnels become subdomains of this |
+| `SSH_ADDR` | `:22` | SSH server listen address |
+| `HTTP_ADDR` | `:80` | HTTP redirect server address |
+| `HTTPS_ADDR` | `:443` | HTTPS proxy server address |
+| `STATS_ADDR` | `127.0.0.1:9090` | Metrics endpoint (localhost only) |
+| `HOST_KEY_PATH` | `host_key` | SSH host key file path (auto-generated if missing) |
+| `TLS_CERT` | `/certs/fullchain.pem` | TLS certificate path (inside container) |
+| `TLS_KEY` | `/certs/privkey.pem` | TLS private key path (inside container) |
+
+## Example `.env`
+
+```env
+# Domain — tunnels become subdomains of this
+DOMAIN=yourdomain.com
+
+# Server ports
+SSH_ADDR=:22
+HTTP_ADDR=:80
+HTTPS_ADDR=:443
+STATS_ADDR=127.0.0.1:9090
+
+# SSH host key (auto-generated on first run)
+HOST_KEY_PATH=/host_key
+
+# TLS certificates
+TLS_CERT=/certs/fullchain.pem
+TLS_KEY=/certs/privkey.pem
+```
+
+## Hard-coded limits
+
+The following limits are compile-time constants (in `internal/config/config.go`). To change them, rebuild the binary:
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `MaxTunnelsPerIP` | `3` | Max concurrent tunnels per IP |
+| `MaxTotalTunnels` | `1,000` | Max total active tunnels |
+| `RequestsPerSecond` | `10` | Per-tunnel HTTP rate limit |
+| `BurstSize` | `20` | Per-tunnel burst allowance |
+| `MaxConnectionsPerMinute` | `10` | New SSH connections per IP per minute |
+| `BlockDuration` | `1 hour` | How long abusive IPs are blocked |
+| `RateLimitViolationsMax` | `10` | Violations before auto-block |
+| `InactivityTimeout` | `2 hours` | Tunnel closes after this idle period |
+| `MaxTunnelLifetime` | `24 hours` | Max tunnel duration regardless of activity |
+| `MaxRequestBodySize` | `128 MB` | Max incoming request body size |
+| `MaxResponseBodySize` | `128 MB` | Max response body size |
+| `WebSocketIdleTimeout` | `2 hours` | WebSocket idle timeout |
+| `MaxWebSocketTransfer` | `1 GB` | Max bytes per WebSocket direction |
+
+## Running multiple instances
+
+```bash
+# Production instance
+DOMAIN=yourdomain.com ./bin/mekongtunnel
+
+# Dev instance on alternate ports
+SSH_ADDR=:2223 \
+HTTP_ADDR=:8080 \
+HTTPS_ADDR=:8443 \
+STATS_ADDR=127.0.0.1:9091 \
+DOMAIN=yourdomain.com \
+./bin/mekongtunnel
+```
+
+Connect to the dev instance:
+
+```bash
+mekong 5173 --server yourdomain.com --port 2223
+```

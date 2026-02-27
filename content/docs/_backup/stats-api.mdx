@@ -1,0 +1,80 @@
+---
+title: Stats API
+description: The JSON metrics endpoint available on localhost:9090.
+---
+
+# Stats API
+
+MekongTunnel exposes a read-only JSON metrics endpoint on `127.0.0.1:9090`. It is only accessible from loopback — external requests are rejected with `403 Forbidden`.
+
+## Endpoint
+
+```
+GET http://127.0.0.1:9090/
+```
+
+### Optional: include active subdomains
+
+```
+GET http://127.0.0.1:9090/?subdomains=true
+```
+
+## Response
+
+```json
+{
+  "active_tunnels": 3,
+  "unique_ips": 2,
+  "total_connections": 15,
+  "total_requests": 1247,
+  "blocked_ips": 1,
+  "total_blocked": 5,
+  "total_rate_limited": 23,
+  "subdomains": ["happy-tiger-a1b2", "calm-eagle-e5f6"]
+}
+```
+
+## Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `active_tunnels` | integer | Number of currently open tunnels |
+| `unique_ips` | integer | Number of unique client IPs with active tunnels |
+| `total_connections` | integer | Total SSH connections accepted since server start |
+| `total_requests` | integer | Total HTTP requests proxied since server start |
+| `blocked_ips` | integer | Number of currently active (non-expired) IP blocks |
+| `total_blocked` | integer | All-time count of IPs blocked |
+| `total_rate_limited` | integer | All-time count of rate-limit rejections |
+| `subdomains` | array | Active subdomain names (only when `?subdomains=true`) |
+
+## Examples
+
+```bash
+# Basic stats
+curl http://127.0.0.1:9090/
+
+# Include active subdomains
+curl "http://127.0.0.1:9090/?subdomains=true"
+
+# Pretty-print
+curl -s "http://127.0.0.1:9090/?subdomains=true" | jq .
+```
+
+## Use with monitoring
+
+You can scrape this endpoint with a Prometheus exporter, a custom shell script, or any monitoring tool that accepts JSON:
+
+```bash
+# Example: log active tunnels every 30 seconds
+watch -n 30 'curl -s http://127.0.0.1:9090/ | jq .active_tunnels'
+```
+
+## Port configuration
+
+The stats port can be changed with the `STATS_ADDR` environment variable:
+
+```env
+STATS_ADDR=127.0.0.1:9091
+```
+
+Setting it to a public address is **not recommended** — the endpoint has no authentication.
